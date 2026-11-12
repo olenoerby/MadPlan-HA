@@ -11,3 +11,6 @@ server, its API under `/api/v1/ha` and the rules that govern it live there: read
 - A change that needs a new field or route on the server goes into MadPlan first, and the README
   here says which server version it needs.
 - `hassfest` and the HACS validation in `.github/workflows/validate.yml` must pass.
+- Documentation, READMEs, comments and commit messages are in English. What people see in Home
+  Assistant comes in English and Danish: `strings.json`, `translations/en.json` and
+  `translations/da.json` must all have every key.

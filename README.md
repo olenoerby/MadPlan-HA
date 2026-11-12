@@ -76,7 +76,7 @@ data:
   meal_id: 42
   vote: "yes"
 
-# Press "Gem og Send til Mealie" for the household's current plans. Only accepted meals go, and only
+# Press "Save and send to Mealie" for the household's current plans. Only accepted meals go, and only
 # when someone calls this: MadPlan never sends by itself.
 action: madplan.send_to_mealie
 
@@ -103,7 +103,7 @@ condition:
 action:
   - action: notify.mobile_app_my_phone
     data:
-      title: Brug snart
+      title: Use soon
       message: >-
         {{ state_attr('sensor.madplan_expiring', 'items') | map(attribute='name') | join(', ') }}
 ```
@@ -122,14 +122,14 @@ action:
       meal: "{{ state_attr('sensor.madplan_meals_to_vote', 'meals')[0] }}"
   - action: notify.mobile_app_my_phone
     data:
-      title: Skal vi have det?
+      title: Shall we have this?
       message: "{{ meal.date }}: {{ meal.title }}"
       data:
         actions:
           - action: "MADPLAN_YES_{{ meal.id }}"
-            title: "Ja tak"
+            title: "Yes please"
           - action: "MADPLAN_NO_{{ meal.id }}"
-            title: "Nej tak"
+            title: "No thanks"
 ---
 alias: Send the answer to MadPlan
 trigger:
@@ -160,12 +160,12 @@ condition:
 action:
   - action: notify.mobile_app_my_phone
     data:
-      title: Madplanen er ikke sendt til Mealie
-      message: "{{ states('sensor.madplan_meals_not_sent') }} godkendte måltider venter."
+      title: The meal plan has not been sent to Mealie
+      message: "{{ states('sensor.madplan_meals_not_sent') }} accepted meals are waiting."
       data:
         actions:
           - action: MADPLAN_SEND
-            title: Send til Mealie
+            title: Send to Mealie
 ---
 alias: Send the plan when asked
 trigger:
@@ -191,6 +191,11 @@ MadPlan can also reach out to Home Assistant, set up on Admin → Integrations w
 
 Mealie's own Home Assistant integration keeps working as before. When someone sends a plan, MadPlan
 writes to Mealie's shopping list and calendar, so whatever Home Assistant shows from Mealie follows.
+
+## Language
+
+The entities and services are named in English and Danish, following Home Assistant's language.
+The messages and texts in the examples above are yours to write in either.
 
 ## Versions
 
