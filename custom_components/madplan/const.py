@@ -1,0 +1,12 @@
+"""Constants for the MadPlan integration."""
+
+DOMAIN = "madplan"
+
+CONF_SCAN_MINUTES = "scan_minutes"
+DEFAULT_SCAN_MINUTES = 5
+
+SERVICE_ADD_TO_SHOPPING_LIST = "add_to_shopping_list"
+SERVICE_UPDATE_PANTRY = "update_pantry"
+SERVICE_VOTE_MEAL = "vote_meal"
+SERVICE_MEAL_COOKED = "meal_cooked"
+SERVICE_SEND_TO_MEALIE = "send_to_mealie"

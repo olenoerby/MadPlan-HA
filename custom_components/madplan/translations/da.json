@@ -1,0 +1,164 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Forbind til MadPlan",
+        "description": "Opret et API-token i MadPlan under Indstillinger, Home Assistant. Brug en adresse, der ikke går gennem et Cloudflare-login, fx http://din-server:6219.",
+        "data": {
+          "url": "MadPlan-adresse",
+          "token": "API-token"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Nyt token til MadPlan",
+        "description": "Tokenet blev afvist. Opret et nyt i MadPlan under Indstillinger, Home Assistant.",
+        "data": {
+          "token": "API-token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Kunne ikke få forbindelse til MadPlan på den adresse.",
+      "invalid_auth": "MadPlan afviste tokenet."
+    },
+    "abort": {
+      "already_configured": "Denne MadPlan-server er allerede sat op.",
+      "reauth_successful": "Det nye token virker."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_minutes": "Minutter mellem opdateringer"
+        }
+      }
+    }
+  },
+  "entity": {
+    "calendar": {
+      "meal_plan": {
+        "name": "Madplan"
+      }
+    },
+    "todo": {
+      "shopping_list": {
+        "name": "Indkøbsliste"
+      }
+    },
+    "sensor": {
+      "dinner_today": {
+        "name": "Aftensmad i dag"
+      },
+      "next_meal": {
+        "name": "Næste måltid"
+      },
+      "shopping_remaining": {
+        "name": "Varer tilbage at købe"
+      },
+      "shopping_cost": {
+        "name": "Pris for det, der mangler"
+      },
+      "expiring": {
+        "name": "Mad, der snart udløber"
+      },
+      "budget_week_expected": {
+        "name": "Forventet denne uge"
+      },
+      "budget_month_expected": {
+        "name": "Forventet denne måned"
+      },
+      "savings_year": {
+        "name": "Sparet i år"
+      },
+      "price_alerts": {
+        "name": "Tilbudsalarmer"
+      },
+      "notifications": {
+        "name": "Ulæste beskeder"
+      },
+      "running_low": {
+        "name": "Ved at løbe tør"
+      },
+      "buy_now": {
+        "name": "Godt tidspunkt at købe"
+      },
+      "meals_to_vote": {
+        "name": "Måltider at stemme på"
+      },
+      "meals_not_sent": {
+        "name": "Måltider ikke sendt til Mealie"
+      }
+    }
+  },
+  "services": {
+    "add_to_shopping_list": {
+      "name": "Tilføj til indkøbsliste",
+      "description": "Sætter en vare på MadPlans aktuelle indkøbsliste, fx fra en automation.",
+      "fields": {
+        "name": {
+          "name": "Vare",
+          "description": "Hvad der skal købes."
+        }
+      }
+    },
+    "update_pantry": {
+      "name": "Opdatér køkkenet",
+      "description": "Melder, hvor meget der er af en vare, fx fra en sensor eller stregkodescanner.",
+      "fields": {
+        "name": {
+          "name": "Vare",
+          "description": "Varens navn."
+        },
+        "quantity": {
+          "name": "Mængde",
+          "description": "Hvor meget der er."
+        },
+        "unit": {
+          "name": "Enhed",
+          "description": "Fx g, l eller stk."
+        },
+        "expires_on": {
+          "name": "Bedst før",
+          "description": "Hvornår den udløber."
+        },
+        "min_quantity": {
+          "name": "Hav mindst",
+          "description": "Under dette foreslår MadPlan at købe mere."
+        }
+      }
+    },
+    "vote_meal": {
+      "name": "Stem på et måltid",
+      "description": "Siger ja eller nej til et planlagt måltid, fx fra en knap på telefonen.",
+      "fields": {
+        "meal_id": {
+          "name": "Måltid",
+          "description": "Måltidets id, fra attributten meals på sensoren for måltider at stemme på."
+        },
+        "vote": {
+          "name": "Stemme",
+          "description": "Ja eller nej."
+        }
+      }
+    },
+    "meal_cooked": {
+      "name": "Måltid lavet eller ej",
+      "description": "Siger, om et måltid blev lavet. Ja trækker maden fra køkkenet, og nej lægger den tilbage.",
+      "fields": {
+        "meal_id": {
+          "name": "Måltid",
+          "description": "Måltidets id."
+        },
+        "cooked": {
+          "name": "Lavet",
+          "description": "Om det blev lavet."
+        }
+      }
+    },
+    "send_to_mealie": {
+      "name": "Send til Mealie",
+      "description": "Trykker \"Gem og Send til Mealie\" for husstandens aktuelle madplaner. Kun godkendte måltider sendes."
+    }
+  }
+}
