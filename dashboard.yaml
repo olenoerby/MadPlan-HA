@@ -1,0 +1,132 @@
+# A MadPlan dashboard for Home Assistant, using only cards that come with it.
+#
+# Settings -> Dashboards -> Add dashboard -> New dashboard from scratch. Open it, press the pencil,
+# then the menu -> Raw configuration editor, and paste this in.
+title: MadPlan
+views:
+  - title: I dag
+    path: madplan
+    icon: mdi:silverware-fork-knife
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Mad
+          - type: tile
+            entity: sensor.madplan_dinner_today
+            name: Aftensmad i dag
+            grid_options:
+              columns: full
+          - type: tile
+            entity: sensor.madplan_next_meal
+            name: Næste måltid
+            grid_options:
+              columns: full
+          - type: markdown
+            visibility:
+              - condition: numeric_state
+                entity: sensor.madplan_meals_to_vote
+                above: 0
+            content: >-
+              **Stem på måltider**
+
+              {% for meal in state_attr('sensor.madplan_meals_to_vote', 'meals') or [] -%}
+
+              - {{ meal.date[8:10] | int }}/{{ meal.date[5:7] | int }}: {{ meal.title }}
+
+              {% endfor %}
+          - type: calendar
+            initial_view: listWeek
+            entities:
+              - calendar.madplan_meal_plan
+      - type: grid
+        cards:
+          - type: heading
+            heading: Indkøb
+          - type: tile
+            entity: sensor.madplan_shopping_remaining
+            name: Varer tilbage
+          - type: tile
+            entity: sensor.madplan_shopping_cost
+            name: Pris for resten
+          - type: todo-list
+            entity: todo.madplan_shopping_list
+            hide_completed: true
+          - type: markdown
+            visibility:
+              - condition: numeric_state
+                entity: sensor.madplan_buy_now
+                above: 0
+            content: >-
+              **Godt tidspunkt at købe**
+
+              {% for item in state_attr('sensor.madplan_buy_now', 'items') or [] -%}
+
+              - {{ item.title }}: {{ item.price }} kr hos {{ item.store }}
+
+              {% endfor %}
+          - type: markdown
+            visibility:
+              - condition: numeric_state
+                entity: sensor.madplan_price_alerts
+                above: 0
+            content: >-
+              **Tilbudsalarmer**
+
+              {% for alert in state_attr('sensor.madplan_price_alerts', 'alerts') or [] -%}
+
+              - {{ alert.title }}: {{ alert.price }} kr hos {{ alert.store }}
+
+              {% endfor %}
+      - type: grid
+        cards:
+          - type: heading
+            heading: Køkkenet
+          - type: tile
+            entity: sensor.madplan_expiring
+            name: Brug snart
+          - type: tile
+            entity: sensor.madplan_running_low
+            name: Løber tør
+          - type: markdown
+            visibility:
+              - condition: numeric_state
+                entity: sensor.madplan_expiring
+                above: 0
+            content: >-
+              **Brug snart**
+
+              {% for item in state_attr('sensor.madplan_expiring', 'items') or [] -%}
+
+              - {{ item.name }}: {{ 'ca. ' if item.estimated }}{{ item.expires_on[8:10] | int }}/{{ item.expires_on[5:7] | int }}
+
+              {% endfor %}
+          - type: markdown
+            visibility:
+              - condition: numeric_state
+                entity: sensor.madplan_running_low
+                above: 0
+            content: >-
+              **Ved at løbe tør**
+
+              {% for item in state_attr('sensor.madplan_running_low', 'items') or [] -%}
+
+              - {{ item.name }}
+
+              {% endfor %}
+          - type: heading
+            heading: Økonomi
+          - type: tile
+            entity: sensor.madplan_budget_week_expected
+            name: Denne uge
+          - type: tile
+            entity: sensor.madplan_budget_month_expected
+            name: Denne måned
+          - type: tile
+            entity: sensor.madplan_savings_year
+            name: Sparet i år
+          - type: tile
+            entity: sensor.madplan_notifications
+            name: Beskeder

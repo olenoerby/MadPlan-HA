@@ -1,0 +1,164 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to MadPlan",
+        "description": "Create an API token in MadPlan under Settings, Home Assistant. Use an address that does not pass through a Cloudflare login, such as http://your-server:6219.",
+        "data": {
+          "url": "MadPlan address",
+          "token": "API token"
+        }
+      },
+      "reauth_confirm": {
+        "title": "New token for MadPlan",
+        "description": "The token was refused. Create a new one in MadPlan under Settings, Home Assistant.",
+        "data": {
+          "token": "API token"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach MadPlan at that address.",
+      "invalid_auth": "MadPlan refused the token."
+    },
+    "abort": {
+      "already_configured": "This MadPlan server is already set up.",
+      "reauth_successful": "The new token works."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_minutes": "Minutes between updates"
+        }
+      }
+    }
+  },
+  "entity": {
+    "calendar": {
+      "meal_plan": {
+        "name": "Meal plan"
+      }
+    },
+    "todo": {
+      "shopping_list": {
+        "name": "Shopping list"
+      }
+    },
+    "sensor": {
+      "dinner_today": {
+        "name": "Dinner today"
+      },
+      "next_meal": {
+        "name": "Next meal"
+      },
+      "shopping_remaining": {
+        "name": "Items left to buy"
+      },
+      "shopping_cost": {
+        "name": "Cost of what is left to buy"
+      },
+      "expiring": {
+        "name": "Food expiring soon"
+      },
+      "budget_week_expected": {
+        "name": "Expected this week"
+      },
+      "budget_month_expected": {
+        "name": "Expected this month"
+      },
+      "savings_year": {
+        "name": "Saved this year"
+      },
+      "price_alerts": {
+        "name": "Price alerts"
+      },
+      "notifications": {
+        "name": "Unread messages"
+      },
+      "running_low": {
+        "name": "Running low"
+      },
+      "buy_now": {
+        "name": "Good time to buy"
+      },
+      "meals_to_vote": {
+        "name": "Meals to vote on"
+      },
+      "meals_not_sent": {
+        "name": "Meals not sent to Mealie"
+      }
+    }
+  },
+  "services": {
+    "add_to_shopping_list": {
+      "name": "Add to shopping list",
+      "description": "Puts an item on MadPlan's current shopping list, such as from an automation.",
+      "fields": {
+        "name": {
+          "name": "Item",
+          "description": "What to buy."
+        }
+      }
+    },
+    "update_pantry": {
+      "name": "Update pantry",
+      "description": "Reports how much of an item is at home, such as from a sensor or a barcode scanner.",
+      "fields": {
+        "name": {
+          "name": "Item",
+          "description": "The item's name."
+        },
+        "quantity": {
+          "name": "Quantity",
+          "description": "How much there is."
+        },
+        "unit": {
+          "name": "Unit",
+          "description": "Such as g, l or stk."
+        },
+        "expires_on": {
+          "name": "Best before",
+          "description": "When it expires."
+        },
+        "min_quantity": {
+          "name": "Keep at least",
+          "description": "Below this, MadPlan suggests buying more."
+        }
+      }
+    },
+    "vote_meal": {
+      "name": "Vote on a meal",
+      "description": "Says yes or no to a planned meal, such as from a button on a phone.",
+      "fields": {
+        "meal_id": {
+          "name": "Meal",
+          "description": "The meal's id, from the meals attribute of the sensor for meals to vote on."
+        },
+        "vote": {
+          "name": "Vote",
+          "description": "Yes or no."
+        }
+      }
+    },
+    "meal_cooked": {
+      "name": "Meal made or not",
+      "description": "Says whether a meal was made. Yes takes its food out of the pantry, no puts it back.",
+      "fields": {
+        "meal_id": {
+          "name": "Meal",
+          "description": "The meal's id."
+        },
+        "cooked": {
+          "name": "Made",
+          "description": "Whether it was made."
+        }
+      }
+    },
+    "send_to_mealie": {
+      "name": "Send to Mealie",
+      "description": "Presses \"Save and send to Mealie\" for the household's current plans. Only accepted meals are sent."
+    }
+  }
+}
