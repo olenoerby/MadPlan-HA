@@ -1,6 +1,8 @@
 """Constants for the MadPlan integration."""
 
-DOMAIN = "madplan"
+# Not "madplan", which another, unrelated integration also uses: the two must never overwrite
+# each other's files or be mistaken for each other in Home Assistant and HACS.
+DOMAIN = "madplan_app"
 
 CONF_SCAN_MINUTES = "scan_minutes"
 DEFAULT_SCAN_MINUTES = 5
