@@ -1,6 +1,6 @@
 # MadPlan integration for Home Assistant
 
-<img src="custom_components/madplan/brand/logo.png" alt="MadPlan" width="320">
+<img src="custom_components/madplan_app/brand/logo.png" alt="MadPlan" width="320">
 
 The Home Assistant **integration** for MadPlan, a meal planner for Danish households built around
 current supermarket offers. It shows the meal plan, the shopping list, the pantry and the budget as
@@ -12,7 +12,7 @@ It is not MadPlan itself. MadPlan is a Home Assistant **app** (formerly an add-o
 Settings → Apps. This integration is optional, runs beside the app, and only talks to it with a
 personal token. The stand-alone MadPlan server it was first made for is no longer maintained.
 
-From Home Assistant 2026.3 it shows MadPlan's own icon and logo, from `custom_components/madplan/brand/`.
+From Home Assistant 2026.3 it shows MadPlan's own icon and logo, from `custom_components/madplan_app/brand/`.
 
 ## Install
 
@@ -33,6 +33,20 @@ a GitHub release, pass the `HACS validation` and `hassfest` checks in `.github/w
 submitted to [hacs/default](https://github.com/hacs/default). Icons shown in the store need a
 submission to [home-assistant/brands](https://github.com/home-assistant/brands). Those are steps
 for the repository owner.
+
+### Upgrading from 0.4
+
+From 0.5.0 the integration's domain is `madplan_app`, not `madplan`, as another, unrelated
+integration also used `madplan`, and the two could overwrite each other or be mistaken for each
+other, icons included. The entities keep their ids, such as `sensor.madplan_dinner_today`, so
+dashboards and automations that use them work as before. Services are now called as
+`madplan_app.send_to_mealie` and so on.
+
+1. Update in HACS and restart Home Assistant.
+2. Delete the old MadPlan entry under **Settings → Devices & services**, then add MadPlan again
+   with the same address and token.
+3. Change automations that call `madplan.<service>` to `madplan_app.<service>`.
+4. If a folder `custom_components/madplan` is left behind, delete it and restart.
 
 ## What you get
 
@@ -67,13 +81,13 @@ paste it in. Lists that are empty stay out of the way.
 
 ```yaml
 # Buy more toilet paper
-action: madplan.add_to_shopping_list
+action: madplan_app.add_to_shopping_list
 data:
   name: Toiletpapir
 
 # Report stock, such as from a sensor or a barcode scanner. With min_quantity,
 # MadPlan says when it is time to buy more.
-action: madplan.update_pantry
+action: madplan_app.update_pantry
 data:
   name: Toiletpapir
   quantity: 2
@@ -84,17 +98,17 @@ data:
 # button on the plan page. A "no" to a meal whose food is all bought is refused (409), as it can
 # only be moved to another day. Each meal in the sensor's `meals` attribute says how much of its
 # food is bought, in `bought`: none, partial or full.
-action: madplan.vote_meal
+action: madplan_app.vote_meal
 data:
   meal_id: 42
   vote: "yes"
 
 # Press "Save and send to Mealie" for the household's current plans. Only accepted meals go, and only
 # when someone calls this: MadPlan never sends by itself.
-action: madplan.send_to_mealie
+action: madplan_app.send_to_mealie
 
 # Say whether a meal was made. MadPlan assumes that accepted meals were, once the day has passed.
-action: madplan.meal_cooked
+action: madplan_app.meal_cooked
 data:
   meal_id: 42
   cooked: false
@@ -152,7 +166,7 @@ condition:
   - condition: template
     value_template: "{{ trigger.event.data.action.startswith('MADPLAN_') }}"
 action:
-  - action: madplan.vote_meal
+  - action: madplan_app.vote_meal
     data:
       meal_id: "{{ trigger.event.data.action.split('_')[2] | int }}"
       vote: "{{ 'yes' if trigger.event.data.action.split('_')[1] == 'YES' else 'no' }}"
@@ -187,7 +201,7 @@ trigger:
     event_data:
       action: MADPLAN_SEND
 action:
-  - action: madplan.send_to_mealie
+  - action: madplan_app.send_to_mealie
 ```
 
 ## The other direction
@@ -213,7 +227,7 @@ The messages and texts in the examples above are yours to write in either.
 ## Versions
 
 The integration and the app are released separately, and both can be updated whenever. Any version
-of the MadPlan app works with version 0.4.1. The app's API under `/api/v1/ha` only ever gains fields,
+of the MadPlan app works with version 0.5.0. The app's API under `/api/v1/ha` only ever gains fields,
 and a test in the app's repository checks every field this integration reads, so an older
 integration keeps working with a newer app.
 
