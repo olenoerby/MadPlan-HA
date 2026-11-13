@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Connect to MadPlan",
-        "description": "Create an API token in MadPlan under Settings, Home Assistant. Use an address that does not pass through a Cloudflare login, such as http://your-server:6219.",
+        "description": "Create a token in MadPlan under Settings, Home Assistant. The address is the MadPlan app's hostname from its Info tab, with port 8099, such as http://88efefb2-madplan:8099.",
         "data": {
           "url": "MadPlan address",
           "token": "API token"

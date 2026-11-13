@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Forbind til MadPlan",
-        "description": "Opret et API-token i MadPlan under Indstillinger, Home Assistant. Brug en adresse, der ikke går gennem et Cloudflare-login, fx http://din-server:6219.",
+        "description": "Opret et token i MadPlan under Indstillinger, Home Assistant. Adressen er MadPlan-appens hostname fra dens Info-fane, med port 8099, fx http://88efefb2-madplan:8099.",
         "data": {
           "url": "MadPlan-adresse",
           "token": "API-token"
