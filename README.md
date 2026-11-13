@@ -1,19 +1,27 @@
 # MadPlan for Home Assistant
 
-The Home Assistant integration for [MadPlan](https://github.com/olenoerby/MadPlan), a self-hosted
-meal planner for Danish households built around current supermarket offers. It shows the meal plan,
-the shopping list, the pantry and the budget in Home Assistant, and lets people vote on meals, say
-what was made and send the plan to Mealie from their phone.
+The Home Assistant **integration** for MadPlan, a meal planner for Danish households built around
+current supermarket offers. It shows the meal plan, the shopping list, the pantry and the budget as
+entities in Home Assistant, for dashboards and automations, and lets people vote on meals, say what
+was made and send the plan to Mealie from their phone.
 
-It needs a running MadPlan server. The integration only talks to that server, with a personal token.
+It is not MadPlan itself. MadPlan is a Home Assistant **app** (formerly an add-on), in
+[olenoerby/ha-madplan-app](https://github.com/olenoerby/ha-madplan-app), installed under
+Settings → Apps. This integration is optional, and only talks to that app with a personal token.
 
 ## Install
 
-1. In HACS, open the menu → **Custom repositories**, add `https://github.com/olenoerby/MadPlan-HA`
-   with the type **Integration**, then download **MadPlan** and restart Home Assistant.
-2. In MadPlan: **Settings → Home Assistant → Create token**. Copy it, as it is only shown once.
-3. In Home Assistant: **Settings → Devices & services → Add integration → MadPlan**. Enter the
-   token and an address that does not pass a Cloudflare login, such as `http://<server>:6219`.
+1. Install and set up the MadPlan app first, from
+   [olenoerby/ha-madplan-app](https://github.com/olenoerby/ha-madplan-app).
+2. In MadPlan: **Settings → Home Assistant → Create token** ("Opret token" in Danish). Copy it, as it
+   is only shown once. The integration acts as the person who made the token.
+3. In HACS, open the menu → **Custom repositories**, add
+   `https://github.com/olenoerby/ha-madplan-integration` with the type **Integration**, then download
+   **MadPlan** and restart Home Assistant.
+4. In Home Assistant: **Settings → Devices & services → Add integration → MadPlan**. Enter the token
+   and the app's address inside Home Assistant: `http://<hostname>:8099`, where the hostname is on
+   the MadPlan app's **Info** tab, such as `88efefb2-madplan`. Home Assistant reaches the app
+   directly, so no port has to be opened.
 
 To appear in the HACS store without the custom-repository step, the repository must be public, have
 a GitHub release, pass the `HACS validation` and `hassfest` checks in `.github/workflows/validate.yml`, and be
@@ -179,24 +187,24 @@ action:
 
 ## The other direction
 
-MadPlan can also reach out to Home Assistant, set up on Admin → Integrations with a long-lived token:
+The MadPlan app talks to Home Assistant by itself, through the Supervisor, without this
+integration:
 
-- **Notifications**: these go to a `notify` service: price alerts, good times to buy, food to use up,
-  what is running low, a new plan to vote on, and a shopping list whose price changed. Each user can
-  switch them off under Settings → Features. With `MADPLAN_PUBLIC_URL` set to the site's real address,
-  the messages end with a link to the right page.
-- **Reading sensors**: when switched on, the assistant can look up entities. That is what makes
-  questions like "are we out of toilet paper?" possible. It is off by default, as it shares sensor
-  names and values with OpenAI when the assistant is used.
+- **Notifications** go to a `notify` service: price alerts, good times to buy, food to use up, what
+  is running low, a new plan to vote on, and a shopping list whose price changed. Each person picks
+  their own phone in MadPlan under Settings → Features, and the app's configuration has a default.
+- **Reading sensors**: with "The assistant may read entity states" on in the app's configuration,
+  the assistant can look up entities, for questions like "are we out of toilet paper?". It is off by
+  default, as it sends sensor names and values to the AI agent.
 
 Mealie's own Home Assistant integration keeps working as before. When someone sends a plan, MadPlan
 writes to Mealie's shopping list and calendar, so whatever Home Assistant shows from Mealie follows.
 
 ## Versions
 
-The integration and the server are released separately. Version 0.4.0 needs a MadPlan server from
-November 2026 or later for `send_to_mealie` and `sensor.madplan_meals_not_sent`. Older servers leave
-that sensor at 0, and the service answers with an error.
+The integration and the app are released separately. Any version of the MadPlan app works with
+version 0.4.1. The app's API under `/api/v1/ha` only ever gains fields, so an older integration keeps
+working with a newer app.
 
 ## License
 
