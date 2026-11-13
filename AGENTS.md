@@ -12,3 +12,6 @@ reaches the app at `http://<app hostname>:8099` with a personal token, never thr
 - A change that needs a new field or route in the app goes into ha-madplan-app first, and the
   README here says which app version it needs.
 - `hassfest` and the HACS validation in `.github/workflows/validate.yml` must pass.
+- Documentation, READMEs, comments and commit messages are in English. What people see in Home
+  Assistant comes in English and Danish: `strings.json`, `translations/en.json` and
+  `translations/da.json` must all have every key.
