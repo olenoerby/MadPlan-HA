@@ -1,4 +1,6 @@
-# MadPlan for Home Assistant
+# MadPlan integration for Home Assistant
+
+<img src="custom_components/madplan/brand/logo.png" alt="MadPlan" width="320">
 
 The Home Assistant **integration** for MadPlan, a meal planner for Danish households built around
 current supermarket offers. It shows the meal plan, the shopping list, the pantry and the budget as
@@ -7,7 +9,10 @@ was made and send the plan to Mealie from their phone.
 
 It is not MadPlan itself. MadPlan is a Home Assistant **app** (formerly an add-on), in
 [olenoerby/ha-madplan-app](https://github.com/olenoerby/ha-madplan-app), installed under
-Settings → Apps. This integration is optional, and only talks to that app with a personal token.
+Settings → Apps. This integration is optional, runs beside the app, and only talks to it with a
+personal token. The stand-alone MadPlan server it was first made for is no longer maintained.
+
+From Home Assistant 2026.3 it shows MadPlan's own icon and logo, from `custom_components/madplan/brand/`.
 
 ## Install
 
@@ -207,9 +212,10 @@ The messages and texts in the examples above are yours to write in either.
 
 ## Versions
 
-The integration and the app are released separately. Any version of the MadPlan app works with
-version 0.4.1. The app's API under `/api/v1/ha` only ever gains fields, so an older integration keeps
-working with a newer app.
+The integration and the app are released separately, and both can be updated whenever. Any version
+of the MadPlan app works with version 0.4.1. The app's API under `/api/v1/ha` only ever gains fields,
+and a test in the app's repository checks every field this integration reads, so an older
+integration keeps working with a newer app.
 
 ## License
 
